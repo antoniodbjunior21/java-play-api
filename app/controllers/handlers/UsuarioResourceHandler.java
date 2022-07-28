@@ -47,4 +47,7 @@ public class UsuarioResourceHandler {
                 }, ec.current()
         );
     }
+    public String getAvatarPicture(Long id, Http.Request request){
+        return routes.Assets.at("images/avatar.svg").absoluteURL(request);
+    }
 }

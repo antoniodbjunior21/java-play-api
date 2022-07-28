@@ -1,15 +1,35 @@
 package beans;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginBean {
-    public String senha;
+    public String password;
     public String email;
-    public String token;
+    public String authToken;
     public InstituicaoResource instituicao;
     public Boolean administrador;
     public String tokenUsuario;
     public String tokenInstituicao;
+    public Map<String, String> sessionValues = new HashMap<>();
 
     public LoginBean() {
+    }
+
+    public Boolean getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Boolean administrador) {
+        this.administrador = administrador;
+    }
+
+    public Map<String, String> getSessionValues() {
+        return sessionValues;
+    }
+
+    public void setSessionValues(Map<String, String> sessionValues) {
+        this.sessionValues = sessionValues;
     }
 
     public String getTokenUsuario() {
@@ -28,12 +48,12 @@ public class LoginBean {
         this.tokenInstituicao = tokenInstituicao;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -44,12 +64,12 @@ public class LoginBean {
         this.email = email;
     }
 
-    public String getToken() {
-        return token;
+    public String getAuthToken() {
+        return authToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 
     public InstituicaoResource getInstituicao() {

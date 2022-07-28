@@ -53,13 +53,14 @@ public class JPAAuthRepository implements AuthRepository {
         String random = String.valueOf(System.currentTimeMillis());
 
         if (StringUtils.isNullOrEmpty(bean.tokenUsuario)){
-            String senha = Utils.toMD5(bean.senha);
+            String senha = Utils.toMD5(bean.password);
             usuario = this.usuarioRepository.buscarPor(em, bean.email, senha);
             if (usuario == null){
                 throw new UsuarioNaoEncontradoException();
             }
             bean.administrador = Boolean.TRUE.equals(usuario.administrador);
             bean.tokenUsuario = Utils.encrypt(usuario.id.toString());
+            bean.authToken = bean.tokenUsuario;
             instituicao = usuario.instituicao;
             if (instituicao == null && !Boolean.TRUE.equals(usuario.administrador)){
                 throw new UsuarioNaoEncontradoException();

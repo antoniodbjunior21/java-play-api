@@ -1,10 +1,12 @@
 package controllers;
 
+import beans.SessaoBean;
 import beans.UsuarioFilter;
 import beans.UsuarioResource;
 import controllers.handlers.UsuarioResourceHandler;
 import models.Instituicao;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -60,5 +62,17 @@ public class UsuarioController extends AppController {
         return handler
                 .remove(id)
                 .thenApplyAsync((val) -> ok(), ec.current());
+    }
+
+    @AppSecurity.Authenticated(AuthSecurity.class)
+    public Result getLoggedUserInfo(final Http.Request request) {
+        try {
+            SessaoBean bean = AppSecurity.getSessionInfoBy(request);
+            UsuarioResource usuarioResource = bean.usuario;
+            usuarioResource.pic = handler.getAvatarPicture(usuarioResource.id, request);
+            return ok(Json.toJson(bean.usuario));
+        }catch (Exception e){
+            return badRequest();
+        }
     }
 }

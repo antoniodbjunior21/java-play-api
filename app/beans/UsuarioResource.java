@@ -8,6 +8,7 @@ public class UsuarioResource {
     public String nome;
     public String primeiroNome;
     public String primeiroSegundoNome;
+    public String pic;
     public String segundoNome;
     public String senha;
     public String email;
@@ -150,5 +151,13 @@ public class UsuarioResource {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 }

@@ -4,6 +4,7 @@ package security;
  */
 
 import beans.SessaoBean;
+import beans.UsuarioResource;
 import models.Instituicao;
 import models.Usuario;
 import play.db.jpa.JPAApi;
@@ -33,6 +34,7 @@ public class AppSecurity {
 
     public static final TypedKey<String> USERNAME = TypedKey.create("username");
     public static final TypedKey<Usuario> USUARIO = TypedKey.create("usuario");
+    public static final TypedKey<UsuarioResource> USUARIO_RESOURCE = TypedKey.create("usuarioresource");
     public static final TypedKey<Instituicao> INSTITUICAO = TypedKey.create("instituicao");
     public static final TypedKey<SessaoBean> SESSAO = TypedKey.create("sessao");
 
@@ -44,6 +46,9 @@ public class AppSecurity {
     }
     public static Usuario getUsuarioBy(Request request){
         return request.attrs().get(AppSecurity.USUARIO);
+    }
+    public static UsuarioResource getUsuarioResourceBy(Request request){
+        return request.attrs().get(AppSecurity.USUARIO_RESOURCE);
     }
     public static Instituicao getInstituicaoBy(Request request){
         return request.attrs().get(AppSecurity.INSTITUICAO);

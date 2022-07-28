@@ -3,30 +3,31 @@
 # ~~~~
 
 # Home page
-GET         /                               controllers.HomeController.index(req: Request)
-GET         /sessionTest                    controllers.HomeController.sessionTest(req: Request)
-POST        /api/usuario/salvar                 controllers.UsuarioController.save(req: Request)
-GET         /api/usuario/buscarPorId/:id        controllers.UsuarioController.findById(id)
-POST        /api/usuarios/filtrar               controllers.UsuarioController.filter(req: Request)
-GET         /api/usuario/excluir/:id            controllers.UsuarioController.remove(id)
+GET         /                                       controllers.HomeController.index(req: Request)
+GET         /sessionTest                            controllers.HomeController.sessionTest(req: Request)
+POST        /api/usuario/salvar                     controllers.UsuarioController.save(req: Request)
+GET         /api/usuario/buscarPorId/:id            controllers.UsuarioController.findById(id)
+POST        /api/usuarios/filtrar                   controllers.UsuarioController.filter(req: Request)
+GET         /api/usuario/excluir/:id                controllers.UsuarioController.remove(id)
+GET         /api/auth/me                            controllers.UsuarioController.getLoggedUserInfo(req: Request)
 
 #Sessao
-GET         /api/sessao/buscarAtual             controllers.AuthController.buscarSessaoAtual(req: Request)
-POST        /api/sessao/autenticar              controllers.AuthController.autenticar(req: Request)
-GET         /api/sessao/logout                  controllers.AuthController.logout(req: Request)
+GET         /api/sessao/buscarAtual                 controllers.AuthController.buscarSessaoAtual(req: Request)
+POST        /api/auth/login                         controllers.AuthController.autenticar(req: Request)
+GET         /api/sessao/logout                      controllers.AuthController.logout(req: Request)
 
 #INSTITUICOES
-GET         /api/instituicao/buscarPorId/:id         controllers.InstituicaoController.findById(id)
-POST        /api/instituicoes/filtrar                controllers.InstituicaoController.filter(req: Request)
-POST        /api/instituicao/salvar                  controllers.InstituicaoController.save(req: Request)
-GET         /api/instituicao/excluir/:id             controllers.InstituicaoController.remove(id)
-POST        /api/insitituicao/pesquisar               controllers.InstituicaoController.pesquisar(req: Request)
+GET         /api/instituicao/buscarPorId/:id        controllers.InstituicaoController.findById(id)
+POST        /api/instituicoes/filtrar               controllers.InstituicaoController.filter(req: Request)
+POST        /api/instituicao/salvar                 controllers.InstituicaoController.save(req: Request)
+GET         /api/instituicao/excluir/:id            controllers.InstituicaoController.remove(id)
+POST        /api/insitituicao/pesquisar             controllers.InstituicaoController.pesquisar(req: Request)
 
 #PESSOAS
-GET         /api/pessoa/buscarPorId/:id         controllers.PessoaController.findById(id)
-POST        /api/pessoas/filtrar                controllers.PessoaController.filter(req: Request)
-POST        /api/pessoa/salvar                  controllers.PessoaController.save(req: Request)
-GET         /api/pessoa/excluir/:id             controllers.PessoaController.remove(id)
+GET         /api/pessoa/buscarPorId/:id             controllers.PessoaController.findById(id)
+POST        /api/pessoas/filtrar                    controllers.PessoaController.filter(req: Request)
+POST        /api/pessoa/salvar                      controllers.PessoaController.save(req: Request)
+GET         /api/pessoa/excluir/:id                 controllers.PessoaController.remove(id)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.at(path="/public", file)
+GET         /assets/*file                           controllers.Assets.at(path="/public", file)

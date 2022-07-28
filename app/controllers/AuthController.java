@@ -2,7 +2,11 @@ package controllers;
 
 import beans.LoginBean;
 import beans.SessaoBean;
+import beans.UsuarioResource;
+import controllers.handlers.AuthResourceHandler;
+import controllers.handlers.UsuarioResourceHandler;
 import exceptions.UsuarioNaoEncontradoException;
+import models.Usuario;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
@@ -22,34 +26,21 @@ import java.util.concurrent.CompletionStage;
 
 public class AuthController extends AppController {
 
-    public final UsuarioRepository usuarioRepository;
-    public final AuthRepository authRepository;
+    public final AuthResourceHandler handler;
 
     @Inject
-    public AuthController(FormFactory formFactory, UsuarioRepository usuarioRepository, HttpExecutionContext ec, AuthRepository authRepository) {
+    public AuthController(FormFactory formFactory, HttpExecutionContext ec, AuthResourceHandler handler) {
         super(formFactory, ec);
-        this.usuarioRepository = usuarioRepository;
-        this.authRepository = authRepository;
+        this.handler = handler;
     }
 
     public CompletionStage<Result> autenticar(final Http.Request request) {
         LoginBean bean = formFactory.form(LoginBean.class).bindFromRequest(request).get();
-
-        request.session().get(Constantes.USUARIO_TOKEN).ifPresent(s -> bean.tokenUsuario = s);
-        request.session().get(Constantes.INSTITUICAO_TOKEN).ifPresent(s -> bean.tokenInstituicao = s);
-
-        return authRepository
-                .login(bean)
-                .thenApplyAsync(loginBean -> {
-                            Map<String, String> newValues = new HashMap<>();
-                            newValues.put(Constantes.USUARIO_TOKEN, loginBean.tokenUsuario);
-                            if (Utils.isNotNullOrEmpty(loginBean.tokenInstituicao)){
-                                newValues.put(Constantes.INSTITUICAO_TOKEN, loginBean.tokenInstituicao);
-                            }
-                            return ok(Json.toJson(loginBean)).withNewSession().addingToSession(request, newValues);
-                        }
-                        , ec.current()).exceptionally((e) -> {
-                    if (e instanceof UsuarioNaoEncontradoException) {
+        return handler
+                .login(bean, request)
+                .thenApplyAsync(loginBean -> ok(Json.toJson(loginBean)).withNewSession().addingToSession(request, bean.sessionValues), ec.current())
+                .exceptionally((e) -> {
+                    if (e.getCause() instanceof UsuarioNaoEncontradoException) {
                         return badRequest(UsuarioNaoEncontradoException.class.getSimpleName().toUpperCase());
                     } else {
                         e.printStackTrace();
@@ -72,6 +63,4 @@ public class AuthController extends AppController {
     public Result logout(final Http.Request request) {
         return ok().withNewSession();
     }
-
-
 }

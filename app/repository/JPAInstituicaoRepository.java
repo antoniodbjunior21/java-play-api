@@ -16,10 +16,11 @@ import java.util.stream.Collectors;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 @Singleton
-public class JPAInstituicaoRepository extends JPABaseRepositoryImpl<Instituicao> implements InstituicaoRepository {
+public class JPAInstituicaoRepository extends JPABaseRepository<Instituicao> implements InstituicaoRepository {
 
-    public JPAInstituicaoRepository(){
-        super(Instituicao.class);
+    @Inject
+    public JPAInstituicaoRepository(JPAApi jpaApi, DatabaseExecutionContext executionContext){
+        super(jpaApi, executionContext, Instituicao.class);
     }
 
     public CompletionStage<List<InstituicaoResource>> findAllByNome(String nome){
